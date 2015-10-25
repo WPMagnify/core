@@ -28,11 +28,13 @@ interface Driver
      *
      * @param   int $blogId The current blog ID. This will always be an integer
      *          multi-site or not.
-     * @param   object $post The post to persist
+     * @param   array $post The post to persist. This is a "normalized" version
+     *          of the `WP_Post` object. The core plugin will take care of the
+     *          normalization.
      * @throws  Exception Any exception may be thrown.
      * @return  void
      */
-    public function persist($blogId, $post);
+    public function persist($blogId, array $post);
 
     /**
      * Update one or more posts from a single blog. Some drivers may simply
@@ -41,7 +43,7 @@ interface Driver
      *
      * @param   int $blogId The current blog ID. This will always be an integer
      *          multi-site or not.
-     * @param   object[] $posts The posts to persist
+     * @param   array[] $posts The posts to persist
      * @throws  Exception Any exception may be thrown.
      * @return  void
      */
@@ -54,11 +56,13 @@ interface Driver
      *
      * @param   int $blogId The current blog ID. This will always be an integer
      *          multi-site or not.
-     * @param   object $post The post to persist
+     * @param   int $postId The post to delete. It's up to the driver to
+     *          persists posts in such a way that they can be deleted with
+     *          only the post IDs. This will be called after the post is deleted
      * @throws  Exception Any exception may be thrown.
      * @return  void
      */
-    public function delete($blogId, $post);
+    public function delete($blogId, $postId);
 
     /**
      * Remove one or more posts from the storage backend. Some drivers might just
@@ -67,9 +71,9 @@ interface Driver
      *
      * @param   int $blogId The current blog ID. This will always be an integer
      *          multi-site or not.
-     * @param   object[] $posts The posts to persist
+     * @param   int[] $postIds The posts to delete
      * @throws  Exception Any exception may be thrown.
      * @return  void
      */
-    public function bulkDelete($blogId, array $posts);
+    public function bulkDelete($blogId, array $postIds);
 }
