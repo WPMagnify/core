@@ -26,6 +26,11 @@ final class Magnify extends \Pimple\Container
     public function __construct()
     {
         parent::__construct();
+        $this['normalizer'] = function () {
+            return new Normalizer\FilteringNormalizer(
+                new Normalizer\DefaultNormalizer()
+            );
+        };
     }
 
     public static function getInstance()
