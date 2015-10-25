@@ -16,6 +16,7 @@ class MagnifyTest extends MagnifyTestCase
     {
         return [
             ['normalizer', Normalizer::class],
+            ['drivers', DriverRegistry::class],
         ];
     }
 
@@ -27,5 +28,17 @@ class MagnifyTest extends MagnifyTestCase
         $m = new Magnify();
         $this->assertArrayHasKey($service, $m);
         $this->assertInstanceOf($class, $m[$service]);
+    }
+
+    public function testDriversCanBeRegisteredAndUnregisteryFromMagnify()
+    {
+        $m = new Magnify();
+        $driver = $this->getMock(Driver::class);
+
+        $m->registerDriver($driver);
+        $this->assertTrue($m['drivers']->has($driver));
+
+        $m->unregisterDriver($driver);
+        $this->assertFalse($m['drivers']->has($driver));
     }
 }

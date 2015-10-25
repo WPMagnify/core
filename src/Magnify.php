@@ -31,6 +31,9 @@ final class Magnify extends \Pimple\Container
                 new Normalizer\DefaultNormalizer()
             );
         };
+        $this['drivers'] = function () {
+            return new DriverRegistry();
+        };
     }
 
     public static function getInstance()
@@ -40,5 +43,15 @@ final class Magnify extends \Pimple\Container
         }
 
         return self::$instance;
+    }
+
+    public function registerDriver(Driver $driver)
+    {
+        $this->offsetGet('drivers')->add($driver);
+    }
+
+    public function unregisterDriver(Driver $driver)
+    {
+        $this->offsetGet('drivers')->remove($driver);
     }
 }

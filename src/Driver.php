@@ -76,4 +76,11 @@ interface Driver
      * @return  void
      */
     public function bulkDelete($blogId, array $postIds);
+
+    /**
+     * Get the name of the driver. This is used to display admin area options.
+     *
+     * @return  string
+     */
+    public function __toString();
 }
