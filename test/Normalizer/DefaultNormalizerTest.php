@@ -40,7 +40,7 @@ class DefaultNormalizerTest extends \Magnify\Core\MagnifyTestCase
 
         $author = $result['post_author'];
         $this->assertInternalType('array', $author);
-        $this->assertEquals('DefaultNormalizerTest', $author['login']);
+        $this->assertEquals('defaultnormalizertest', $author['login']);
         $this->assertEquals('Kim', $author['first_name']);
         $this->assertEquals('Doe', $author['last_name']);
         $this->assertEquals('Display', $author['display_name']);
@@ -55,7 +55,7 @@ class DefaultNormalizerTest extends \Magnify\Core\MagnifyTestCase
     private function makeUser()
     {
         $userId = wp_insert_user([
-            'user_login'    => 'DefaultNormalizerTest',
+            'user_login'    => 'defaultnormalizertest',
             'user_pass'     => 'pass',
             'first_name'    => 'Kim',
             'last_name'     => 'Doe',
