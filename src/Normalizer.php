@@ -27,5 +27,5 @@ interface Normalizer
      * @param   object $post the WP_Post object to normalize
      * @return  array
      */
-    public function normalize($blogId, $post);
+    public function normalize($blogId, \WP_Post $post);
 }
