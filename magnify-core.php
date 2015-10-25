@@ -29,4 +29,5 @@ if (file_exists(__DIR__.'/vendor/autoload.php')) { // local dev or installed via
     return; // TODO show an error here
 }
 
+class_alias('Magnify\\Core\\Magnify', 'Magnify');
 add_action('plugins_loaded', 'magnify_core_load');

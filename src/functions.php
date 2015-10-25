@@ -8,11 +8,25 @@
  * file that was distributed with this source code.
  */
 
-use Pimple\Container;
+/**
+ * Fetches the default instance of the `Magnify` class.
+ *
+ * @return  Magnify\Core\Magnify
+ */
+function magnify()
+{
+    return \Magnify::getInstance();
+}
 
+/**
+ * Hooked into `plugins_loaded` to kick things off. Extensions should hook into
+ * `magnify_loaded` to extend this plugin.
+ *
+ * @return  void
+ */
 function magnify_core_load()
 {
-    $container = new Container();
+    $magnify = magnify();
 
-    do_action('magnify_loaded', $container);
+    do_action('magnify_loaded', $magnify);
 }
