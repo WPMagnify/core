@@ -15,4 +15,6 @@ matrix:
   include:
     - env: WP_VERSION=latest WP_MULTISITE=1
 
+install: composer install
+
 script: make test
