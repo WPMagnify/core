@@ -12,18 +12,27 @@ namespace Magnify\Core;
 
 class DriverRegistryTest extends MagnifyTestCase
 {
+    private $normalier, $logger, $registry;
+
     public function testDriversCanBeAddedAndRemovedFromTheRegistry()
     {
-        $reg = new DriverRegistry();
         $driver = $this->getMock(Driver::class);
 
-        $this->assertFalse($reg->has($driver));
+        $this->assertFalse($this->registry->has($driver));
 
-        $reg->add($driver);
-        $this->assertTrue($reg->has($driver));
-        $this->assertCount(1, iterator_to_array($reg));
+        $this->registry->add($driver);
+        $this->assertTrue($this->registry->has($driver));
+        $this->assertCount(1, iterator_to_array($this->registry));
 
-        $reg->remove($driver);
-        $this->assertFalse($reg->has($driver));
+        $this->registry->remove($driver);
+        $this->assertFalse($this->registry->has($driver));
+    }
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->logger = new Logger\SpyLogger();
+        $this->normalizer = $this->getMock(Normalizer::class);
+        $this->registry = new DriverRegistry($this->normalizer, $this->logger);
     }
 }

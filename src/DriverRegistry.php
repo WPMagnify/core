@@ -10,6 +10,8 @@
 
 namespace Magnify\Core;
 
+use Psr\Log\LoggerInterface;
+
 /**
  * Container for drivers. This will keep track of which drivers are registered
  * for the application.
@@ -24,6 +26,28 @@ final class DriverRegistry implements \IteratorAggregate
     private $drivers = [];
 
     /**
+     * @var SyncHandler[]
+     */
+    private $handlers = [];
+
+    /**
+     * @var Normalizer
+     */
+    private $normalizer;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+
+    public function __construct(Normalizer $normalizer, LoggerInterface $logger)
+    {
+        $this->normalizer = $normalizer;
+        $this->logger = $logger;
+    }
+
+    /**
      * Add a new driver to the registry.
      *
      * @param   $driver The driver to add
@@ -31,7 +55,10 @@ final class DriverRegistry implements \IteratorAggregate
      */
     public function add(Driver $driver)
     {
-        $this->drivers[get_class($driver)] = $driver;
+        $key = $this->keyFor($driver);
+        $this->drivers[$key] = $driver;
+        $this->handlers[$key] = new SyncHandler($driver, $this->normalizer, $this->logger);
+        $this->handlers[$key]->connect();
     }
 
     /**
@@ -42,7 +69,11 @@ final class DriverRegistry implements \IteratorAggregate
      */
     public function remove(Driver $driver)
     {
-        unset($this->drivers[get_class($driver)]);
+        $key = $this->keyFor($driver);
+        if (isset($this->drivers[$key])) {
+            $this->handlers[$key]->disconnect();
+            unset($this->drivers[$key], $this->handlers[$key]);
+        }
     }
 
     /**
@@ -53,7 +84,7 @@ final class DriverRegistry implements \IteratorAggregate
      */
     public function has(Driver $driver)
     {
-        return isset($this->drivers[get_class($driver)]);
+        return isset($this->drivers[$this->keyFor($driver)]);
     }
 
     /**
@@ -62,5 +93,10 @@ final class DriverRegistry implements \IteratorAggregate
     public function getIterator()
     {
         return new \ArrayIterator($this->drivers);
+    }
+
+    private function keyFor(Driver $driver)
+    {
+        return get_class($driver);
     }
 }

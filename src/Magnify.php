@@ -10,6 +10,8 @@
 
 namespace Magnify\Core;
 
+use Psr\Log\LogLevel;
+
 /**
  * Provides a nice entry point for plugins as well as being the container 
  * for all the services.
@@ -31,8 +33,11 @@ final class Magnify extends \Pimple\Container
                 new Normalizer\DefaultNormalizer()
             );
         };
-        $this['drivers'] = function () {
-            return new DriverRegistry();
+        $this['logger'] = function () {
+            return new Logger\ErrorLogLogger(WP_DEBUG ? LogLevel::INFO : LogLevel::ERROR);
+        };
+        $this['drivers'] = function ($magnify) {
+            return new DriverRegistry($magnify['normalizer'], $magnify['logger']);
         };
     }
 
