@@ -30,3 +30,18 @@ function magnify_core_load()
 
     do_action('magnify_loaded', $magnify);
 }
+
+function magnify_act($hook, ...$args)
+{
+    do_action(magnify_hook($hook), ...$args);
+}
+
+function magnify_filter($hook, ...$args)
+{
+    return apply_filters(magnify_hook($hook), ...$args);
+}
+
+function magnify_hook($hook)
+{
+    return sprintf('magnify_%s', $hook);
+}
