@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
  *
  * @since   1.0
  */
-class SyncHandler
+class SyncHandler implements Hookable
 {
     /**
      * @var Driver
