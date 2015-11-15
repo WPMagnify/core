@@ -1,5 +1,5 @@
 {
-    "name": "wp-magnify/core",
+    "name": "wp-magnify/magnify-core",
     "description": "Content federation and search for WordPress",
     "keywords": ["wordpress", "content federation", "search"],
     "license": "MIT",
