@@ -97,6 +97,6 @@ final class DriverRegistry implements \IteratorAggregate
 
     private function keyFor(Driver $driver)
     {
-        return get_class($driver);
+        return $driver->getIdentifier();
     }
 }

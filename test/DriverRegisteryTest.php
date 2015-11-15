@@ -17,6 +17,9 @@ class DriverRegistryTest extends MagnifyTestCase
     public function testDriversCanBeAddedAndRemovedFromTheRegistry()
     {
         $driver = $this->getMock(Driver::class);
+        $driver->expects($this->atLeastOnce())
+            ->method('getIdentifier')
+            ->willReturn('testDriver');
 
         $this->assertFalse($this->registry->has($driver));
 

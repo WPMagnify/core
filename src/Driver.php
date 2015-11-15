@@ -83,4 +83,14 @@ interface Driver
      * @return  string
      */
     public function __toString();
+
+    /**
+     * Get the driver's unique key. This is used to store the driver in the
+     * registry as well as some admin area stuff. This should be unique to all
+     * drivers installed in WP Magnify, so the usual {vendor}_{package}_{name}
+     * scheme is probably best.
+     *
+     * @return string
+     */
+    public function getIdentifier();
 }
