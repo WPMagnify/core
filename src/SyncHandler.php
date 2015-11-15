@@ -61,7 +61,8 @@ class SyncHandler implements Hookable
     public function handlePost($postId, $post)
     {
         if (
-            magnify_filter('disable_persist', false, $this->driver, $post)
+            !$this->driverEnabled()
+            || magnify_filter('disable_persist', false, $this->driver, $post)
             || !$this->isPersistablePostType($post)
             || $this->isAutosave()
             || $this->isAutoDraft($post)
@@ -92,7 +93,7 @@ class SyncHandler implements Hookable
 
     public function handleDelete($postId)
     {
-        if (magnify_filter('disable_delete', false, $this->driver, $postId)) {
+        if (!$this->driverEnabled() || magnify_filter('disable_delete', false, $this->driver, $postId)) {
             return;
         }
 
@@ -144,5 +145,10 @@ class SyncHandler implements Hookable
     private function isAutoDraft($post)
     {
         return 'auto-draft' === $post->post_status;
+    }
+
+    private function driverEnabled()
+    {
+        return magnify_filter('driver_enabled', true, $this->driver);
     }
 }

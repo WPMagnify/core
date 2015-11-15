@@ -9,6 +9,7 @@
  */
 
 use Magnify\Core\Admin;
+use Magnify\Core\Driver;
 
 /**
  * Fetches the default instance of the `Magnify` class.
@@ -30,6 +31,7 @@ function magnify_core_load()
 {
     $magnify = magnify();
 
+    add_filter(magnify_hook('driver_enabled'), '_magnify_disable_inactive_drivers');
     if (is_admin()) {
         $magnify->connect(new Admin\AdminPage());
     }
@@ -50,4 +52,9 @@ function magnify_filter($hook, ...$args)
 function magnify_hook($hook)
 {
     return sprintf('magnify_%s', $hook);
+}
+
+function _magnify_disable_inactive_drivers($bool, Driver $driver)
+{
+    return \Magnify::driverEnabled($driver);
 }

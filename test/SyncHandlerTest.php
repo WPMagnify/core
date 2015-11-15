@@ -100,6 +100,22 @@ class SyncHandlerTest extends MagnifyTestCase
         }
     }
 
+    public function testGloballyDisabledDriversDoNotPersistPosts()
+    {
+        add_filter(magnify_hook('driver_enabled'), '__return_false');
+        $this->driver->expects($this->never())
+            ->method('persist');
+
+        $this->factory->post->create([
+            'post_title'    => 'test',
+            'post_status'   => 'publish',
+        ]);
+
+        $this->assertNoErrors();
+
+        remove_filter(magnify_hook('driver_enabled'), '__return_false');
+    }
+
     public function testDeletingPostCallsDeleteOnTheDriver()
     {
         $this->handler->disconnect();
@@ -155,6 +171,26 @@ class SyncHandlerTest extends MagnifyTestCase
 
         $this->assertNoErrors();
         remove_filter(magnify_hook('disable_delete'), '__return_true');
+    }
+
+    public function testGloballyDisabledDriversDoNotDeletePosts()
+    {
+        add_filter(magnify_hook('driver_enabled'), '__return_false');
+
+        $this->handler->disconnect();
+        $postId = $this->factory->post->create([
+            'post_title'    => 'test',
+            'post_status'   => 'publish',
+        ]);
+        $this->handler->connect();
+        $this->driver->expects($this->never())
+            ->method('delete');
+
+        wp_delete_post($postId, true);
+
+        $this->assertNoErrors();
+
+        remove_filter(magnify_hook('driver_enabled'), '__return_false');
     }
 
     public function setUp()

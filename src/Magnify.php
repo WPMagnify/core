@@ -24,8 +24,8 @@ use Psr\Log\LogLevel;
 final class Magnify extends \Pimple\Container
 {
     const ADMIN_PAGE = 'wp-magnify';
-    const ADMIN_SETTING = 'wp_magnify';
-    const ADMIN_SECTION = 'core';
+    const OPTION_GROUP = 'wp_magnify';
+    const SETTING_DRIVERS = 'wp_magnify_drivers';
 
     private static $instance = null;
 
@@ -86,5 +86,16 @@ final class Magnify extends \Pimple\Container
 
         $this->offsetSet(get_class($object), $set);
         $object->connect();
+    }
+
+    public static function getEnabledDrivers()
+    {
+        return get_option(self::SETTING_DRIVERS);
+    }
+
+    public static function driverEnabled(Driver $driver)
+    {
+        $e = self::getEnabledDrivers();
+        return !empty($e[$driver->getIdentifier()]);
     }
 }
