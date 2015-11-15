@@ -23,6 +23,10 @@ use Psr\Log\LogLevel;
  */
 final class Magnify extends \Pimple\Container
 {
+    const ADMIN_PAGE = 'wp-magnify';
+    const ADMIN_SETTING = 'wp_magnify';
+    const ADMIN_SECTION = 'core';
+
     private static $instance = null;
 
     public function __construct()
@@ -58,5 +62,29 @@ final class Magnify extends \Pimple\Container
     public function unregisterDriver(Driver $driver)
     {
         $this->offsetGet('drivers')->remove($driver);
+    }
+
+    /**
+     * Connect an object to the magnify instance. This will store the object
+     * in the the application with the key `get_class($object)` then call `connect`
+     * on it.
+     *
+     * Should you want to disconnect an object later on, you can retrieve it
+     * via `$mangify['Fully\\Qualified\\ClassName']->disconnect();`.
+     *
+     * @return void
+     */
+    public function connect(Hookable $object)
+    {
+        // Pimple will call any invokable object when it fetches it from
+        // the container. If we get an invokeable object, we'll make sure
+        // the container doesn't do that via `protect`.
+        $set = $object;
+        if (method_exists($object, '__invoke')) {
+            $set = $this->protect($object);
+        }
+
+        $this->offsetSet(get_class($object), $set);
+        $object->connect();
     }
 }

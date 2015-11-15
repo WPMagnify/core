@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+use Magnify\Core\Admin;
+
 /**
  * Fetches the default instance of the `Magnify` class.
  *
@@ -27,6 +29,10 @@ function magnify()
 function magnify_core_load()
 {
     $magnify = magnify();
+
+    if (is_admin()) {
+        $magnify->connect(new Admin\AdminPage());
+    }
 
     do_action('magnify_loaded', $magnify);
 }
