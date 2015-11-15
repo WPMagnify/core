@@ -34,6 +34,7 @@ function magnify_core_load()
     add_filter(magnify_hook('driver_enabled'), '_magnify_disable_inactive_drivers');
     if (is_admin()) {
         $magnify->connect(new Admin\AdminPage());
+        $magnify->connect(new Admin\DriverSettings($magnify['drivers']));
     }
 
     do_action('magnify_loaded', $magnify);

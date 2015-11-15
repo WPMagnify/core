@@ -72,8 +72,8 @@ final class AdminPage implements Hookable
             <h1><?php _e('WP Magnify Settings', MAGNIFY_CORE_TD); ?></h1>
             <form method="POST" action="<?php echo admin_url('options.php'); ?>">
                 <?php
-                settings_fields(Magnify::ADMIN_SETTING);
-                do_settings_sections(Magnify::ADMIN_SETTING);
+                settings_fields(Magnify::OPTION_GROUP);
+                do_settings_sections(Magnify::OPTION_GROUP);
                 submit_button();
                 ?>
             </form>

@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface;
  *
  * @since   1.0
  */
-final class DriverRegistry implements \IteratorAggregate
+final class DriverRegistry implements \IteratorAggregate, \Countable
 {
     /**
      * @var Driver[]
@@ -93,6 +93,14 @@ final class DriverRegistry implements \IteratorAggregate
     public function getIterator()
     {
         return new \ArrayIterator($this->drivers);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        return count($this->drivers);
     }
 
     private function keyFor(Driver $driver)
