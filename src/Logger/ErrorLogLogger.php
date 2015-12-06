@@ -34,7 +34,7 @@ final class ErrorLogLogger extends AbstractLogger
 
     public function __construct($level)
     {
-        if (isset(self::$levels[$level])) {
+        if (!isset(self::$levels[$level])) {
             $level = LogLEvel::WARNING;
         }
 
