@@ -90,8 +90,8 @@ final class DriverSettings implements Hookable
         $enabled = Magnify::getEnabledDrivers();
         foreach ($this->drivers as $driver) {
             printf(
-                '<lable for="%1$s[%2$s]"><input type="checkbox" id="%1$s[%2$s]" name="%1$s[%2$s]" value="1" %3$s /> %4$s</label>',
-                self::SETTING,
+                '<p><label for="%1$s[%2$s]"><input type="checkbox" id="%1$s[%2$s]" name="%1$s[%2$s]" value="1" %3$s /> %4$s</label></p>',
+                Magnify::SETTING_DRIVERS,
                 $driver->getIdentifier(),
                 checked(true, isset($enabled[$driver->getIdentifier()]), false),
                 $driver
