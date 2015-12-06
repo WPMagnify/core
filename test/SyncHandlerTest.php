@@ -196,6 +196,7 @@ class SyncHandlerTest extends MagnifyTestCase
     public function setUp()
     {
         parent::setUp();
+        remove_filter(magnify_hook('driver_enabled'), '_magnify_disable_inactive_drivers');
         $this->logger = new Logger\SpyLogger();
         $this->driver = $this->getMock(Driver::class);
         $this->normalizer = $this->getMock(Normalizer::class);
