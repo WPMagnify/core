@@ -47,7 +47,7 @@ interface Driver
      * @throws  Exception Any exception may be thrown.
      * @return  void
      */
-    public function bulkPersist($blogId, array $post);
+    public function bulkPersist($blogId, array $posts);
 
     /**
      * Remove a post from the storage backend. Called every time a post goes
