@@ -54,7 +54,7 @@ final class DefaultNormalizer implements Normalizer
     {
         $out = [];
         foreach (get_object_taxonomies($post) as $tax) {
-            $out[$tax] = $this->fetchTaxonomy($tax, $post);
+            $out = array_merge($out, $this->fetchTaxonomy($tax, $post));
         }
 
         return array_filter($out);
@@ -64,7 +64,7 @@ final class DefaultNormalizer implements Normalizer
     {
         $terms = get_the_terms($post->ID, $taxonomy);
         if (!$terms || is_wp_error($terms)) {
-            return null;
+            return [];
         }
 
         $out = [];
@@ -74,6 +74,7 @@ final class DefaultNormalizer implements Normalizer
                 'name'          => $term->name,
                 'slug'          => $term->slug,
                 'description'   => $term->description,
+                'taxonomy'      => $taxonomy,
             ];
         }
 

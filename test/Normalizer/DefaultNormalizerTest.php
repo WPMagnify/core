@@ -31,12 +31,11 @@ class DefaultNormalizerTest extends \Magnify\Core\MagnifyTestCase
         $this->assertEquals('test title', $result['post_title']);
 
         $this->assertCount(1, $result['terms']);
-        $this->assertArrayHasKey('category', $result['terms']);
-        $this->assertCount(1, $result['terms']['category']);
-        $cat = $result['terms']['category'][0];
+        $cat = $result['terms'][0];
         $this->assertEquals('DefaultNormalizerTest', $cat['name']);
         $this->assertEquals('default-normalizer-test', $cat['slug']);
         $this->assertEquals('test term description', $cat['description']);
+        $this->assertEquals('category', $cat['taxonomy']);
 
         $author = $result['post_author'];
         $this->assertInternalType('array', $author);
