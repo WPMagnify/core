@@ -12,11 +12,9 @@
 $testDir = getenv('WP_TESTS_DIR') ?: '/tmp/wordpress-tests-lib';
 require_once $testDir.'/includes/functions.php';
 
-function _manually_load_plugin() {
+tests_add_filter('muplugins_loaded', function () {
     require __DIR__.'/../magnify-core.php';
-}
-
-tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
+});
 
 require $testDir.'/includes/bootstrap.php';
 require_once __DIR__.'/MagnifyTestCase.php';
